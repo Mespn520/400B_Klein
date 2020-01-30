@@ -1,0 +1,18 @@
+import numpy as np
+import astropy.units as u
+from ReadFile import read
+
+
+def ParticleInfo(filename, par_type, par_num):
+    np.around(value,3)
+    x = data['x']*u.kpc
+    y = data['y']*u.kpc
+    z = data['z']*u.kpc
+    vx = data['vx']*u.kilometer/u.second
+    vy = data['vy']*u.kilometer/u.second
+    vz = data['vz']*u.kilometer/u.second
+    m = data['m']*const.M_sun
+    index = np.where(data['x'] > 2)
+    xnew = data['x'][index]
+    print(x,y,z,vx,vy,vz,m)
+    return x,y,z,vx,vy,vz,m
