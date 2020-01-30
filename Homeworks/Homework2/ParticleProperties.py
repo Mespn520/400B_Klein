@@ -26,10 +26,10 @@ def ParticleInfo(filename, par_type, par_num): #this defines the function Partic
 
 r, v, m = ParticleInfo("MW_000.txt", 2, 99) # Function that places "values" on the variables r,v, and m that correspond to what is wanted in the homework
 
-#print(r) #This is available if you want the distance in kpc
-print(r.to_value(u.lyr)*u.lyr) #This will convert to ly
-print(v) #this is the velocity in km/s
-print(m) #this is the mass in solar masses
+#print(r) # This is available if you want the distance in kpc
+print(r.to_value(u.lyr)*u.lyr) # This will convert to ly
+print(v) # this is the velocity in km/s
+print(m*1e10) # this is the mass in solar masses
 
 
     
