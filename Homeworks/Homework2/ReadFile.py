@@ -2,7 +2,7 @@ import numpy as np
 import astropy.units as u
 #A python script that will read and use the values defined in the MW_000.txt file to evaluate different things.
 
-filename = "MW_000.txt" #this defines the filename
+
 
 def read(filename): #This defines the function read that takes the name of the file as input
     
@@ -16,11 +16,7 @@ def read(filename): #This defines the function read that takes the name of the f
     total = float(value) #This will store the total particles
     file.close() #closes the file
     
-    data = np.genfromtxt("MW_000.txt",dtype=None,names=True,skip_header=3) #This allows for the use of the column header information that is presented in the txt file starting with a #-symbol
-    
-    #print("The time is",time) #This prints the time
-    #print("The total particles are",total) #This prints the total particles 
-    #print(data) #This prints the data array
+    data = np.genfromtxt(filename,dtype=None,names=True,skip_header=3) #This allows for the use of the column header information that is presented in the txt file starting with a #-symbol
     #print(data['type'][n]) #n just defines the row number 
     #print(data['x'][n])
     #print(data['y'][n])
@@ -35,9 +31,9 @@ def read(filename): #This defines the function read that takes the name of the f
 if __name__ == "__main__":
     time, total, data = read(filename) #This just reads the file
 
-    print("The time is",time) #This prints the time
-    print("The total particles are",total) #This prints the total particles 
-    print(data) #This prints the data array
-    
-    
+   # print("The time is",time) #This prints the time
+   # print("The total particles are",total) #This prints the total particles 
+   # print(data) #This prints the data array
+    data['type'][0]
+
 
