@@ -1,0 +1,22 @@
+import numpy as np
+import astropy.units as u
+from ReadFile import read
+import matplotlib.pyplot as plt
+import matplotlib
+from CenterOfMass import CenterOfMass
+from astropy.constants import G
+
+filename1="./MW_000.txt"
+filename11="./M31_000.txt"
+filename111="./M33_000.txt"
+
+data1 = np.genfromtxt(filename1,dtype=None,names=True,skip_header=4)
+data11 = np.genfromtxt(filename11,dtype=None,names=True,skip_header=4)
+data111 = np.genfromtxt(filename111,dtype=None,names=True,skip_header=4)
+
+fig = plt.figure(figsize=(10,10))
+ax = plt.subplot(111)
+
+plt.plot(data1['B']-data1['R'], data1['R'], color='blue', linewidth=5, label='MW')
+plt.plot(data11['B']-data11['R'], data11['R'], color='red', linewidth=5, label='M31')
+plt.plot(data111['B']-data111['R'], data111['R'], color='green', linewidth=5, label='M33')
