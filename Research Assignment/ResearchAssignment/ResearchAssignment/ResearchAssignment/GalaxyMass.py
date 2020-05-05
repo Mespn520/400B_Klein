@@ -1,0 +1,93 @@
+# This is a program that will return the total mass of any desired galaxy component
+import numpy as np
+import astropy.units as u
+from ReadFile import read
+
+# Function for the Component Mass of the specified galaxies
+def ComponentMass(filename, par_type):
+    # Inputs:
+    # filename, this designates the file from which data will be taken from
+    # par_type designates the particle type, which are classified by numbers 1-3 with 1 being Halo type, 2 being Disk type, and 3 being Bulge type.
+
+    #Returns:
+    # M_tot, this is the total mass of a specific galaxy component
+
+    time, total, data = read(filename) #This will pull those 3 'data sets' from the ReadFile
+    
+    index = np.where(data['type'] == par_type) # This creates an index for all the particles
+    
+    mnew = data['m'][index] * 1e10 * u.Msun #This stores the components in the index and for final answer clarity sake was multiplied by 1e10 to clear up the 10^10 Msun that the masses are labeled as in the file
+    
+    M_tot = np.sum(mnew) #This is the total mass
+    return M_tot
+
+# Using the function to compute the total mass of each component of each galaxy (MW, M31, and M33) and storing the results in a Table, taking into consideration that M33 does not possess a bulge, so par_type 3 for M33 will not exist
+
+M_MW_1 = np.round(ComponentMass("MW_000.txt",1)/1e12,3) # This will round the mass to 3 decimal places, the 1 indicates the particle type
+M_MW_2 = np.round(ComponentMass("MW_000.txt",2)/1e12,3)
+M_MW_3 = np.round(ComponentMass("MW_000.txt",3)/1e12,3)
+
+print("The total mass in the Milky Way Halo is: ", M_MW_1)
+print("The total mass in the Milky Way Disk is: ", M_MW_2)
+print("The total mass in the Milky Way Bulge is: ", M_MW_3)
+
+# Doing the same for M31 now, where the number following the letter M_M31_# is the particle type
+
+M_M31_1 = np.round(ComponentMass("M31_000.txt",1)/1e12,3)
+M_M31_2 = np.round(ComponentMass("M31_000.txt",2)/1e12,3)
+M_M31_3 = np.round(ComponentMass("M31_000.txt",3)/1e12,3)
+
+print("The total mass in the M31 Halo is: ", M_M31_1)
+print("The total mass in the M31 Disk is: ", M_M31_2)
+print("The total mass in the M31 Bulge is: ", M_M31_3)
+
+#Doing the same for M33 now, where the number following the letter M_M33_# is the particle type
+
+M_M33_1 = np.round(ComponentMass("M33_000.txt",1)/1e12,3)
+M_M33_2 = np.round(ComponentMass("M33_000.txt",2)/1e12,3)
+M_M33_3 = np.round(ComponentMass("M33_000.txt",3)/1e12,3)
+
+print("The total mass in the M33 Halo is: ", M_M33_1)
+print("The total mass in the M33 Disk is: ", M_M33_2)
+print("M33 does not posses a bulge")
+
+# Now we have to compute the total mass of each galaxy (all components combined) and add it to the table
+# Summing all components will look something like M_Galaxy = M_Galaxy_# + M_Galaxy_# + M_Galaxy_#
+M_MW = M_MW_1 + M_MW_2 + M_MW_3
+M_M31 = M_M31_1 + M_M31_2 + M_M31_3
+M_M33 = M_M33_1 + M_M33_2 + M_M33_3
+print("The total mass of the MW is: ", M_MW)
+print("The total mass of M31 is: ", M_M31)
+print("The total mass of M33 is: ", M_M33)
+
+# Then we have to compute the total mass of the Local Group (labelled LG)
+# This will be the sum of the total masses of each galaxy and will look something like M_LG = M_MW + M_M31 + M_M33
+
+M_LG = M_MW + M_M31 + M_M33
+print("The total mass of the Local Group is: ", M_LG)
+
+# And finally we have to compute the baryon fraction f_bar
+# The baryon fraction looks like f_bar_Galaxy = total stellar mass (M_Galaxy_2 + M_Galaxy_3) / total mass (M_Galaxy)
+# First I will calculate the stellar mass and round it to 3 decimal places to keep significant figures consistent
+# This will look like M_Stellar_Galaxy = (M_Galaxy_2 + M_Galaxy_3)
+
+M_Stellar_MW = np.round(M_MW_2 + M_MW_3,3)
+# Then f_bar
+f_bar_MW = np.round((M_Stellar_MW/M_MW),3)
+# M31
+M_Stellar_M31 = np.round(M_M31_2 + M_M31_3,3)
+f_bar_M31 = np.round((M_Stellar_M31/M_M31),3)
+# M33
+M_Stellar_M33 = np.round(M_M33_2 + M_M33_3,3)
+f_bar_M33 = np.round((M_Stellar_M33/M_M33),3)
+
+print("The baryon fraction for the MW is: ", f_bar_MW)
+print("The baryon fraction for M31 is: ", f_bar_M31)
+print("The baryon fraction for M33 is: ", f_bar_M33)
+
+# Then calculating the baryon fraction for the whole Local Group
+# This will look like M_Stellar = M_Stellar_Galaxy + M_Stellar_Galaxy + M_Stellar_Galaxy and then f_bar_LG = M_Stellar/M_LG
+
+M_Stellar = M_Stellar_MW + M_Stellar_M31 + M_Stellar_M33 #LG Stellar mass
+f_bar_LG = np.round((M_Stellar/M_LG),3)
+print("The baryon fraction for the Local Group is: ", f_bar_LG)
